@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jacobrec/kamal/logger"
+	"github.com/jacobrec/kamal/server/logger"
 )
 
 func listen(res http.ResponseWriter, req *http.Request) {

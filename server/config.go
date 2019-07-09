@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jacobrec/kamal/logger"
+	"github.com/jacobrec/kamal/server/logger"
 )
 
 var lastReadFile time.Time
