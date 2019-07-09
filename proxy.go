@@ -24,6 +24,8 @@ func send(destination string, res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	logger.OCD("destination:", destination, " scheme:", url.Scheme,
+		" host:", url.Host)
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
 	req.URL.Host = url.Host
