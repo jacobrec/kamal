@@ -1,23 +1,23 @@
 package main
 
 import (
-	"bufio"
+	"math/rand"
 	"os"
-	"strings"
 	"time"
 
+	"github.com/jacobrec/kamal/config"
 	"github.com/jacobrec/kamal/server/logger"
 )
 
 var lastReadFile time.Time
 var filePath = os.Getenv("CONFIG")
-var redirectMap map[string]string = make(map[string]string)
+var redirectMap map[string][]string = make(map[string][]string)
 
 func getDestination(scheme, from string) string {
 	to := ""
 	checkConfig()
 	if val, ok := redirectMap[from]; ok {
-		to = scheme + "://" + val
+		to = scheme + "://" + val[rand.Intn(len(val))]
 
 		logger.Debug("Redirect: ", from, " => ", to)
 	} else {
@@ -27,30 +27,18 @@ func getDestination(scheme, from string) string {
 }
 
 func loadConfigFile() {
-	file, err := os.Open(filePath)
-	defer file.Close()
-	if err != nil {
-		logger.Warn("Could not open the config file. ", err, "\nThe server will be useless")
-		return
+	redirects, err := config.ParseConfigAsMap()
+	if err == nil {
+		logger.Info("Successfully loaded config file.")
+		lastReadFile = time.Now()
+		redirectMap = redirects
+	} else if err.Error() == "Read" {
+		logger.Warn("An error occured while reading the config file.")
+	} else if err.Error() == "Open" {
+		logger.Warn("Could not open the config file. \nThe server will be useless.")
+	} else {
+		logger.Warn("An unexpected error occured with the config file.")
 	}
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		loadConfigLine(scanner.Text())
-	}
-
-	if err := scanner.Err(); err != nil {
-		logger.Warn("An error occured while reading the config file. ", err)
-		return
-	}
-
-	logger.Info("Successfully loaded config file")
-	lastReadFile = time.Now()
-}
-
-func loadConfigLine(line string) {
-	data := strings.Split(line, " ")
-	redirectMap[data[0]] = data[1]
 }
 
 func shouldReloadConfigFile() bool {

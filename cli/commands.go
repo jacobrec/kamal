@@ -82,5 +82,5 @@ func getTarget() (string, bool) {
 		raw = "http://" + raw
 	}
 	path, err := url.Parse(raw)
-	return path.Hostname(), err == nil && path.Hostname() != ""
+	return path.Hostname() + ":" + path.Port(), err == nil && path.Hostname() != ""
 }
