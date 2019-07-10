@@ -14,3 +14,7 @@ type Config = map[Entry]bool
 func NewEntry(src, dest string) Entry {
 	return Entry{src, dest}
 }
+
+func (e Entry) String() string {
+	return e.src + " => " + e.dest
+}

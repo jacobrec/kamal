@@ -49,6 +49,7 @@ func main() {
 		"run":  run,
 		"help": help,
 		"h":    help,
+		"ls":   printConfig,
 	}
 	action := strings.Trim(os.Args[1], "-")
 	if fn, ok := argFuncMap[action]; ok {

@@ -1,31 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"net/url"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/jacobrec/kamal/config"
 )
 
 // The help command was left in main.go
-
-func addOrRemove(fn func(string, string)) bool {
-	if len(os.Args) != 4 {
-		return false
+func printConfig() {
+	f, err := config.ParseConfigAsSet()
+	if err != nil {
+	} else {
+		for k, _ := range f {
+			fmt.Println(k)
+		}
 	}
-	entry, ok := getEntrypoint()
-	if !ok {
-		return false
-	}
-
-	target, ok := getTarget()
-	if !ok {
-		badUsage()
-		return false
-	}
-
-	fn(entry, target)
-	return true
 }
 
 func add() {
@@ -65,6 +58,25 @@ func run() {
 	}
 }
 
+func addOrRemove(fn func(string, string)) bool {
+	if len(os.Args) != 4 {
+		return false
+	}
+	entry, ok := getEntrypoint()
+	if !ok {
+		return false
+	}
+
+	target, ok := getTarget()
+	if !ok {
+		badUsage()
+		return false
+	}
+
+	fn(entry, target)
+	return true
+}
+
 func getEntrypoint() (string, bool) {
 	path, err := url.Parse("http://" + os.Args[2])
 	return path.Hostname(), err == nil && path.Hostname() != ""
@@ -82,5 +94,9 @@ func getTarget() (string, bool) {
 		raw = "http://" + raw
 	}
 	path, err := url.Parse(raw)
-	return path.Hostname() + ":" + path.Port(), err == nil && path.Hostname() != ""
+	port := path.Port()
+	if port == "" {
+		port = "80"
+	}
+	return path.Hostname() + ":" + port, err == nil && path.Hostname() != ""
 }
