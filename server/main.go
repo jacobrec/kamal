@@ -18,7 +18,7 @@ func main() {
 func port() string {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8888"
+		port = "80"
 	}
 	return ":" + port
 }

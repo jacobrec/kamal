@@ -7,5 +7,5 @@ function end() {
 trap end INT
 
 go build
-LOG_LEVEL=INFO CONFIG=../.config PORT=8888 ./server
+LOG_LEVEL=INFO CONFIG=../.config PORT=80 ./server
 

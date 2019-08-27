@@ -2,7 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/jacobrec/kamal/config"
@@ -10,7 +9,6 @@ import (
 )
 
 var lastReadFile time.Time
-var filePath = os.Getenv("CONFIG")
 var redirectMap map[string][]string = make(map[string][]string)
 
 func getDestination(scheme, from string) string {
@@ -42,12 +40,11 @@ func loadConfigFile() {
 }
 
 func shouldReloadConfigFile() bool {
-	info, err := os.Stat(filePath)
-	if err != nil {
-		logger.Warn("Error reading file", err)
-		return false
+	t, e := config.LastModTime()
+	if e != nil {
+		logger.Warn("Error reading file", e)
 	}
-	return info.ModTime().After(lastReadFile)
+	return t.After(lastReadFile)
 }
 
 func checkConfig() {

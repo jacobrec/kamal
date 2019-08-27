@@ -1,8 +1,18 @@
 package config
 
-import "os"
+import (
+	"os"
+	"time"
+)
 
-var filePath = os.Getenv("CONFIG")
+var filePath = getEnv("KAMAL_CONFIG", "/etc/kamal/config")
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
 
 type Entry struct {
 	src  string
@@ -17,4 +27,12 @@ func NewEntry(src, dest string) Entry {
 
 func (e Entry) String() string {
 	return e.src + " => " + e.dest
+}
+
+func LastModTime() (time.Time, error) {
+	info, err := os.Stat(filePath)
+	if err != nil {
+		return time.Now(), err
+	}
+	return info.ModTime(), nil
 }

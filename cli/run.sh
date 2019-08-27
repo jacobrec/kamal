@@ -15,4 +15,5 @@ echo ""
 ./cli --ls
 echo ""
 ./cli --run prog.rac.reckhard.ca 8080 ./binary arg1 arg2
+./cli --add website.rac.reckhard.ca localhost:3000
 rm cli

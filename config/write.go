@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -30,5 +31,6 @@ func stringConfig(config Config) string {
 }
 
 func CreateIfNotExist() {
+	os.MkdirAll(filepath.Dir(filePath), os.ModePerm)
 	os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0755)
 }
