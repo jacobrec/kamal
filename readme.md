@@ -3,6 +3,8 @@
 
 Allows for very simple load balancing, and redirection of subdomains and ports.
 
+TODO:
+ - Write the run command
 ```
 Example Usage:
 
