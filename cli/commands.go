@@ -98,5 +98,5 @@ func getTarget() (string, bool) {
 	if port == "" {
 		port = "80"
 	}
-	return path.Hostname() + ":" + port, err == nil && path.Hostname() != ""
+	return path.Hostname() + ":" + port + path.Path, err == nil && path.Hostname() != ""
 }
