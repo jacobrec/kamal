@@ -13,5 +13,6 @@ cd ../
 
 sudo mv server/a.out /bin/kamal-server
 sudo mv cli/a.out /bin/kamal
+sudo mkdir -p /etc/kamal
 
 echo $PWD
