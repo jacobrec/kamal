@@ -1,7 +1,8 @@
 # Kamal
 [A tool for navigating ports](https://en.wikipedia.org/wiki/Kamal_(navigation))
 
-Allows for very simple load balancing, and redirection of subdomains and ports.
+Kamal is for setting up redirect rules for ports in a simple manner. Now you can easily host everything off port 80!
+Kamal also allows for very simple load balancing.
 
 TODO:
  - Write the run command
