@@ -28,10 +28,8 @@ func send(destination string, res http.ResponseWriter, req *http.Request) {
 		" host:", url.Host, " url:", url)
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
-	req.URL.Host = url.Host
 	req.URL.Scheme = url.Scheme
 	req.Header.Set("X-Forward-Host", req.Header.Get("Host"))
-	req.Host = url.Host
 
 	proxy.ServeHTTP(res, req)
 }

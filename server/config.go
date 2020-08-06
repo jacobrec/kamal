@@ -14,6 +14,7 @@ var redirectMap map[string][]string = make(map[string][]string)
 func getDestination(scheme, from string) string {
 	to := ""
 	checkConfig()
+	logger.Debug("CONFIG: ", redirectMap)
 	if val, ok := redirectMap[from]; ok {
 		to = scheme + "://" + val[rand.Intn(len(val))]
 
