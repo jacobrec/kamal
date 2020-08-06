@@ -12,6 +12,7 @@ const (
 	info
 	warn
 	err
+	fatal
 )
 
 var levelMap = map[string]int{
@@ -20,6 +21,7 @@ var levelMap = map[string]int{
 	"INFO":  info,
 	"WARN":  warn,
 	"ERROR": err,
+	"FATAL": fatal,
 	"":      debug, // default if env isn't set
 }
 
@@ -67,4 +69,9 @@ func Error(v ...interface{}) {
 	if level <= err {
 		jLog("ERROR", v...)
 	}
+}
+
+// Fatal means something unrecoverable happened
+func Fatal(v ...interface{}) {
+	log.Fatal("[", level, "] ", fmt.Sprint(v...))
 }
